@@ -1,0 +1,111 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e3f1f1;
+  color: #5a3e50;
+}
+.player-lists {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.list {
+  width: 45%;
+  border: 1px solid #ddd;
+  padding: 10px;
+  box-sizing: border-box; /* Ensures padding does not affect overall width */
+  min-height: 450px; /* Set a minimum height to prevent layout shifting */
+}
+.deck {
+  justify-content: center;
+  margin: 0 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+td,
+th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  width: calc(
+    100% / 10
+  ); /* Fixed width for each cell to prevent layout shift */
+  height: 50px;
+}
+.active-player {
+  margin-bottom: 20px;
+}
+.chilling {
+  background-color: aliceblue;
+}
+.goTime {
+  background-color: rgb(255, 202, 202);
+}
+.card {
+  width: 100px;
+  height: 150px;
+  border: 1px solid #5a3e50;
+  border-radius: 5px;
+  margin: 10px auto;
+  background-color: white;
+}
+#rulesList {
+  text-align: left;
+  border: #ddd 1px solid;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+li > p {
+  margin: 0 !important;
+}
+li > h4 {
+  margin: 4px !important;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 0px 0;
+  }
+}
+
+.specialCard {
+  background-image: linear-gradient(90deg, #f7e9ff 25%, 75%, #e1f9ff);
+  background-size: 400px 100%;
+  border: 1px solid #ffc2f7;
+  animation: shimmer 2s infinite linear alternate;
+}
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+th {
+  background-color: rgb(255, 202, 202);
+}
+
+.filled {
+  background-color: #f7e9ff;
+}
+
+button {
+  color: #5a3e50;
+  background-color: aliceblue;
+  border: 4px solid #5a3e50;
+  border-radius: 5px;
+}
+
+ol > li {
+  font-size: large;
+  margin: 5px;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player List and Deck</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <table id="playerTable">
+        <thead><tr><th colspan="10">Draft order</th></tr></thead>
+        <tbody><tr></tr></tbody>
+        </table>
+<h2 class="active-player">Active Player:</h1>
+
+<div class="player-lists">
+  <div class="list goTime">
+    <h2>Remaining players</h2>
+    <ol id="playersList"></ol>
+    <button onclick="randomizePlayers()"><h2>Randomize Players</h2></button>
+  </div>
+
+  <div class="deck flexCenter">
+    <div class="flexRow">
+        <div>
+            <h2>Ledger</h2>
+            <ol id="ledger"></ol>
+        </div>        
+    <div class="flexCenter">
+        <button onclick="drawCard()"><h2>Draw Card</h2></button>
+        <div class="card flexCenter" id="card">
+            <p id="mostRecentCard"></p>
+        </div>
+    </div>
+    </div>
+    <div class="column">
+        <h2>Special cards</h2>
+        <ul id="rulesList"></ul>
+    </div>
+
+</div>
+
+
+  <div class="list chilling">
+    <h2>Chilling Lounge</h2>
+    <ul id="movedPlayersList"></ul>
+  </div>
+</div>
+
+<script src="index.js"></script>
+</body>
+</html>
