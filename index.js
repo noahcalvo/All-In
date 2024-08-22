@@ -10,6 +10,8 @@ let players = [
   "Hannah",
   "Ivan",
   "Jack",
+  "Finn",
+  "Beltraire",
 ];
 
 let specialCards = [
@@ -83,9 +85,13 @@ function populateLists() {
   document.getElementById("movedPlayersList").innerHTML = movedPlayers
     .map((player) => `<li>${player}</li>`)
     .join("");
-  document.querySelector(".active-player").textContent = `Active Player: ${
-    players[0] || "None"
-  }`;
+  if (players.length === 0) {
+    document.querySelector(".active-player").textContent = `✨ Finished ✨`;
+  } else {
+    document.querySelector(".active-player").textContent = `Active Player: ✨${
+      players[0] || "None"
+    }✨`;
+  }
   document.getElementById("ledger").innerHTML = ledger
     .map((entry) => `<li>${entry}</li>`)
     .join("");
@@ -263,6 +269,10 @@ function updateTable() {
 }
 
 function createTableSpaces(number) {
+  // update the table header width
+  var thElement = document.getElementById("draft-order");
+  thElement.setAttribute("colspan", number);
+
   const row = document.createElement("tr");
   for (let i = 1; i <= number; i++) {
     const td = document.createElement("td");
@@ -271,8 +281,17 @@ function createTableSpaces(number) {
     td.appendChild(div); // Append the text node to the td
     row.appendChild(td);
   }
+  // set the width of each cell
+  const width = 100 / number + "%";
+
+  let elements = document.querySelectorAll("th"); // Replace with your actual class or selector
+  elements = [...elements, ...document.querySelectorAll("td")]; // Replace with your actual class or selector
+
+  elements.forEach((element) => {
+    element.style.width = width;
+  });
   document.querySelector("#playerTable tbody").appendChild(row);
 }
 
-createTableSpaces(10); // Creating spaces for number range you mentioned (1 to number)
+createTableSpaces(players.length); // Creating spaces for number range you mentioned (1 to number)
 populateLists(); // Populate lists initially

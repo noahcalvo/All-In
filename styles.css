@@ -3,17 +3,30 @@ body {
   background-color: #e3f1f1;
   color: #5a3e50;
 }
+
 .player-lists {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto;
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
+@media (max-width: 500px) {
+  .list {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+
+  .inner {
+    flex-direction: column !important;
+  }
+}
+
 .list {
-  width: 45%;
   border: 1px solid #ddd;
   padding: 10px;
   box-sizing: border-box; /* Ensures padding does not affect overall width */
-  min-height: 450px; /* Set a minimum height to prevent layout shifting */
+  min-height: 400px; /* Set a minimum height to prevent layout shifting */
 }
 .deck {
   justify-content: center;
@@ -23,6 +36,11 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  overflow-x: auto;
+}
+.table-container {
+  overflow-x: auto;
+  width: 100%;
 }
 td,
 th {
@@ -33,9 +51,11 @@ th {
     100% / 10
   ); /* Fixed width for each cell to prevent layout shift */
   height: 50px;
+  word-wrap: break-word;
 }
 .active-player {
   margin-bottom: 20px;
+  text-align: center;
 }
 .chilling {
   background-color: aliceblue;
@@ -88,6 +108,7 @@ li > h4 {
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  align-items: flex-start;
 }
 
 th {
