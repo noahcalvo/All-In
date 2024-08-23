@@ -9,6 +9,11 @@
 </head>
 
 <body>
+<div>
+  <h3>Enter Player Names</h3>
+  <input type="text" id="playerNameInput" placeholder="Enter player name" />
+  <button onclick="addPlayer()">Add Player</button>
+</div>
   <div class="table-container">
     <table id="playerTable">
       <thead>
@@ -17,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr></tr>
+        <tr id="draftersRow"></tr>
       </tbody>
     </table>
   </div>
@@ -26,7 +31,7 @@
     <div class="player-lists">
       <div class="list goTime">
         <h2>Remaining players</h2>
-        <ol id="playersList"></ol>
+        <ol id="remainingPlayersList"></ol>
         <button onclick="randomizePlayers()">
           <h2>Randomize Players</h2>
         </button>

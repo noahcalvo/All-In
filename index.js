@@ -1,25 +1,13 @@
 // Initializing player list
-let players = [
-  "Alice",
-  "Bob",
-  "Charlie",
-  "David",
-  "Eva",
-  "Frank",
-  "Grace",
-  "Hannah",
-  "Ivan",
-  "Jack",
-  "Finn",
-  "Beltraire",
-];
+let players = [];
 
-let specialCards = [
+const specialCards = [
   "Queen", // runner up (2nd)
   "Jack", // Trailer (Last)
   "Joker", // Choice
   "King", // First
   "Ace", // Pass to next player
+  "Mirror", // Reverse
 ];
 
 const specialCardsRules = [
@@ -59,6 +47,20 @@ const specialCardsRules = [
         <p>Skip the player's turn.</p>
     `,
   },
+  {
+    card: "Mirror: <i>Reverse</i>",
+    description: `
+        <p>Reverse the order of the players. Player who drew draws again.</p>
+    `,
+  },
+  {
+    card: "Bomb: <i>Boom</i>",
+    description: `
+        <p>
+          Remove all players from the board and place them back in the queue.
+        </p>
+    `,
+  },
 ];
 
 document.getElementById("rulesList").innerHTML = specialCardsRules
@@ -71,15 +73,28 @@ let playerSlots = Array(players.length).fill(null);
 let ledger = [];
 
 function shuffle() {
-  cards = specialCards;
+  cards = [...specialCards];
   for (let i = 1; i <= players.length; i++) {
     cards.push(i);
   }
 }
 shuffle();
+
+function addPlayer() {
+  const playerNameInput = document.getElementById("playerNameInput");
+  const playerName = playerNameInput.value.trim();
+  if (playerName) {
+    players.push(playerName);
+    playerNameInput.value = ""; // Clear the input field
+    populateLists(); // Update the player list display
+    createTableSpaces(players.length); // Update the table spaces
+    shuffle();
+    playerSlots = Array(players.length).fill(null);
+  }
+}
 // Populate the initial list of players
 function populateLists() {
-  document.getElementById("playersList").innerHTML = players
+  document.getElementById("remainingPlayersList").innerHTML = players
     .map((player) => `<li>${player}</li>`)
     .join("");
   document.getElementById("movedPlayersList").innerHTML = movedPlayers
@@ -132,8 +147,6 @@ function drawCard() {
 
 function handleCard(card, player) {
   // check if card is a number or a string
-  console.log("card", card);
-  console.log("card type", typeof card);
   if (typeof card === "number") {
     bumpAndAssign(card - 1, player);
   } else {
@@ -225,15 +238,26 @@ function handleSpecialCard(card, player) {
     case "King":
       // Place player in first spot
       // Bump the existing player to the queue
-      console.log("playerSlots", playerSlots);
       if (playerSlots[0]) {
-        console.log("removing from chill list", playerSlots[0]);
         removeFromChillList(playerSlots[0]);
       }
       playerSlots[0] = player;
       return;
     case "Ace":
       removeFromChillList(player);
+      return;
+    case "Mirror":
+      // Reverse the order of the players
+      playerSlots.reverse();
+      // Add the player back to the front of the queue
+      takeAnotherTurn(player);
+      return;
+    case "Bomb":
+      // Remove all players from the board and place them back in the queue
+      takeAnotherTurn(player);
+      players = [...players, ...movedPlayers];
+      playerSlots = Array(playerSlots.length).fill(null);
+      updateTable();
       return;
     default:
       alert("Invalid card, ", card);
@@ -243,7 +267,14 @@ function handleSpecialCard(card, player) {
 
 function removeFromChillList(player) {
   players.push(player);
-  console.log("playerSlots", playerSlots);
+  let indexOfCollisionPlayer = movedPlayers.indexOf(player);
+  if (indexOfCollisionPlayer !== -1) {
+    movedPlayers.splice(indexOfCollisionPlayer, 1);
+  }
+}
+
+function takeAnotherTurn(player) {
+  players.unshift(player);
   let indexOfCollisionPlayer = movedPlayers.indexOf(player);
   if (indexOfCollisionPlayer !== -1) {
     movedPlayers.splice(indexOfCollisionPlayer, 1);
@@ -264,6 +295,8 @@ function updateTable() {
     cell.appendChild(nameDiv); // Append the name div to the td
     if (playerSlots[idx]) {
       cell.classList.add("filled");
+    } else {
+      cell.classList.remove("filled");
     }
   });
 }
@@ -273,14 +306,17 @@ function createTableSpaces(number) {
   var thElement = document.getElementById("draft-order");
   thElement.setAttribute("colspan", number);
 
-  const row = document.createElement("tr");
+  var trElement = document.getElementById("draftersRow");
+  trElement.innerHTML = "";
+
   for (let i = 1; i <= number; i++) {
     const td = document.createElement("td");
     const div = document.createElement("div"); // Create a div for the number label
     div.textContent = i; // Set the text content of the div to the number
     td.appendChild(div); // Append the text node to the td
-    row.appendChild(td);
+    trElement.appendChild(td);
   }
+
   // set the width of each cell
   const width = 100 / number + "%";
 
@@ -290,7 +326,6 @@ function createTableSpaces(number) {
   elements.forEach((element) => {
     element.style.width = width;
   });
-  document.querySelector("#playerTable tbody").appendChild(row);
 }
 
 createTableSpaces(players.length); // Creating spaces for number range you mentioned (1 to number)
