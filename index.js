@@ -8,6 +8,7 @@ const specialCards = [
   "King", // First
   "Ace", // Pass to next player
   "Mirror", // Reverse
+  "Bomb"
 ];
 
 const specialCardsRules = [
